@@ -1,111 +1,143 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b1520" />
+
   <title>INTERJAMA · Comercio Internacional y Logística</title>
+  <meta name="description" content="INTERJAMA brinda soporte operativo e institucional para coordinación logística, gestión documental y operaciones vinculadas al cruce internacional, con presencia activa en el corredor Jama." />
 
-  <meta name="description" content="INTERJAMA brinda soporte operativo e institucional en comercio internacional y logística con foco en el Paso Internacional Jama (Argentina–Chile)." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="Inicio">
+        <div class="brand-title">INTERJAMA</div>
+        <div class="brand-sub">Comercio Internacional · Logística</div>
+      </a>
 
-<header class="header">
-  <div class="container header-inner">
-    <div class="brand">
-      <strong>INTERJAMA</strong>
-      <span>Comercio Internacional · Logística</span>
+      <nav class="menu" aria-label="Navegación principal">
+        <a href="#servicios">Servicios</a>
+        <a href="#operativa">Operativa</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
     </div>
-    <nav class="nav">
-      <a href="#servicios">Servicios</a>
-      <a href="#operativa">Operativa</a>
-      <a href="#contacto">Contacto</a>
-    </nav>
-  </div>
-</header>
+  </header>
 
-<section class="hero">
-  <div class="hero-overlay">
-    <div class="container hero-content">
-      <span class="hero-tag">Paso Internacional Jama · Argentina–Chile</span>
+  <main id="top">
+    <!-- Hero -->
+    <section class="hero" aria-label="Portada">
+      <div class="container hero-inner">
+        <div class="hero-kicker">Paso Internacional Jama · Argentina–Chile</div>
 
-      <h1>Comercio internacional y logística<br>con foco en frontera</h1>
+        <h1 class="hero-title">
+          Comercio internacional y logística<br />
+          con foco en frontera
+        </h1>
 
-      <p>
-        INTERJAMA brinda soporte operativo e institucional para coordinación logística,
-        gestión documental y operaciones vinculadas al cruce internacional,
-        con presencia activa en el corredor Jama.
-      </p>
+        <p class="hero-text">
+          INTERJAMA brinda soporte operativo e institucional para coordinación logística,
+          gestión documental y operaciones vinculadas al cruce internacional, con presencia
+          activa en el corredor Jama.
+        </p>
 
-      <div class="hero-actions">
-        <a href="#contacto" class="btn primary">Contactar</a>
-        <a href="#servicios" class="btn secondary">Ver servicios</a>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#contacto">Contactar</a>
+          <a class="btn btn-ghost" href="#servicios">Ver servicios</a>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<section id="servicios" class="section">
-  <div class="container">
-    <h2>Servicios</h2>
+    <!-- Servicios -->
+    <section id="servicios" class="section">
+      <div class="container">
+        <h2 class="section-title">Servicios</h2>
 
-    <div class="cards">
-      <div class="card">
-        <h3>Soporte operativo de frontera</h3>
-        <p>Coordinación de arribos, seguimiento y comunicación operativa.</p>
+        <div class="cards">
+          <article class="card">
+            <h3 class="card-title">Soporte operativo de frontera</h3>
+            <p class="card-text">Coordinación de arribos, seguimiento y comunicación operativa.</p>
+          </article>
+
+          <article class="card">
+            <h3 class="card-title">Gestión documental</h3>
+            <p class="card-text">Checklist, orden de información y asistencia institucional.</p>
+          </article>
+
+          <article class="card">
+            <h3 class="card-title">Logística y coordinación</h3>
+            <p class="card-text">Organización de flujo operativo y reportes de estado.</p>
+          </article>
+        </div>
       </div>
+    </section>
 
-      <div class="card">
-        <h3>Gestión documental</h3>
-        <p>Checklist, orden de información y asistencia institucional.</p>
+    <!-- Operativa -->
+    <section id="operativa" class="section section-dark">
+      <div class="container split">
+        <div class="media">
+          <img src="img/camion.jpg" alt="Camión en ruta - corredor Jama" loading="lazy" />
+        </div>
+
+        <div class="content">
+          <h2 class="section-title">Operativa en el corredor Jama</h2>
+          <p class="section-text">
+            Enfoque basado en orden, seguimiento y trazabilidad para reducir fricción y anticipar
+            problemas en frontera.
+          </p>
+          <ol class="list">
+            <li>Relevamiento inicial y estado operativo</li>
+            <li>Coordinación y seguimiento</li>
+            <li>Reporte breve y próximos pasos</li>
+          </ol>
+        </div>
       </div>
+    </section>
 
-      <div class="card">
-        <h3>Logística y coordinación</h3>
-        <p>Organización de flujo operativo y reportes de estado.</p>
+    <!-- Contacto -->
+    <section id="contacto" class="section">
+      <div class="container split">
+        <div class="media">
+          <img src="img/interjama-oficina.jpg" alt="INTERJAMA - instalación operativa" loading="lazy" />
+        </div>
+
+        <div class="content">
+          <h2 class="section-title">Contacto</h2>
+          <p class="section-text">Consultas institucionales o presentación comercial.</p>
+
+          <a class="contact-mail" href="mailto:contacto@interjama.com">contacto@interjama.com</a>
+        </div>
       </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-note">© INTERJAMA · Comercio Internacional y Logística</div>
     </div>
-  </div>
-</section>
+  </footer>
 
-<section id="operativa" class="section dark">
-  <div class="container split">
-    <img src="img/ruta-camion-interjama-1920x1080.jpg" alt="Operativa en corredor Jama" />
-
-    <div>
-      <h2>Operativa en el corredor Jama</h2>
-      <p>
-        Enfoque basado en orden, seguimiento y trazabilidad para reducir fricción
-        y anticipar problemas en frontera.
-      </p>
-
-      <ol>
-        <li>Relevamiento inicial y estado operativo</li>
-        <li>Coordinación y seguimiento</li>
-        <li>Reporte breve y próximos pasos</li>
-      </ol>
-    </div>
-  </div>
-</section>
-
-<section id="contacto" class="section">
-  <div class="container split">
-    <img src="img/sede-interjama-1600x900.jpg" alt="Sede INTERJAMA" />
-
-    <div>
-      <h2>Contacto</h2>
-      <p>Consultas institucionales o presentación comercial.</p>
-      <a class="email" href="mailto:contacto@interjama.com">contacto@interjama.com</a>
-    </div>
-  </div>
-</section>
-
-<footer class="footer">
-  <p>© INTERJAMA · Comercio Internacional y Logística</p>
-</footer>
-
+  <script>
+    // Smooth scroll simple
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const id = a.getAttribute('href');
+        if (!id || id === '#') return;
+        const el = document.querySelector(id);
+        if (!el) return;
+        e.preventDefault();
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
 </body>
 </html>
 
