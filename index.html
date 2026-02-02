@@ -1,143 +1,31 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>INTERJAMA · Comercio Internacional · Logística · Frontera Jama</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <meta name="description" content="INTERJAMA: comercio internacional, logística y operaciones de frontera con foco en Paso Internacional Jama (Argentina–Chile). Coordinación, asesoramiento y soporte operativo." />
-  <meta name="theme-color" content="#0b0f14" />
+  <title>INTERJAMA · Comercio Internacional y Logística</title>
+  <meta name="description" content="INTERJAMA brinda soporte operativo e institucional en comercio internacional y logística, con foco en el Paso Internacional Jama (Argentina–Chile)." />
+  <meta name="keywords" content="INTERJAMA, comercio internacional, logística, frontera, Paso Jama, Argentina, Chile" />
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="INTERJAMA · Comercio Internacional & Logística" />
-  <meta property="og:description" content="Operaciones de frontera, logística y comercio exterior. Paso Internacional Jama (Argentina–Chile)." />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="img/hero-interjama-1920x1080.jpg" />
-
-  <link rel="icon" href="img/logo-interjama-web.png" />
   <link rel="stylesheet" href="css/style.css" />
-
-  <style>
-    :root{
-      --bg:#0b0f14; --fg:#f5f7fb; --muted:#b7c0cc; --card:#121823;
-      --line:rgba(255,255,255,.12); --accent:#ffd166;
-      --max:1080px; --r:18px;
-      --shadow:0 18px 40px rgba(0,0,0,.35);
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;background:var(--bg);color:var(--fg);line-height:1.5}
-    a{color:inherit;text-decoration:none}
-    .wrap{max-width:var(--max);margin:0 auto;padding:0 18px}
-
-    /* Topbar */
-    .topbar{position:sticky;top:0;z-index:50;background:rgba(11,15,20,.78);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-    .nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:12px}
-    .brand{display:flex;align-items:center;gap:12px;min-width:220px}
-    .brand img{width:40px;height:40px;border-radius:10px;object-fit:contain;background:#fff;padding:6px}
-    .brand strong{letter-spacing:.6px}
-    .menu{display:flex;gap:16px;flex-wrap:wrap;justify-content:flex-end}
-    .menu a{opacity:.9}
-    .menu a:hover{opacity:1;text-decoration:underline}
-
-    /* Buttons */
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:14px;padding:12px 16px;border:1px solid var(--line);background:transparent;color:var(--fg)}
-    .btn.primary{background:linear-gradient(180deg, rgba(255,209,102,.95), rgba(255,209,102,.78));color:#1a1f27;border:none}
-    .btn:hover{transform:translateY(-1px)}
-
-    /* Hero background: use picture with fallback and protect iOS rendering */
-    .hero{position:relative;isolation:isolate}
-    .hero::before{
-      content:"";position:absolute;inset:0;z-index:-2;
-      background:url("img/hero-interjama-1920x1080.jpg") center/cover no-repeat;
-      filter:saturate(1.05) contrast(1.05);
-      transform: translateZ(0);
-      will-change: transform;
-    }
-    .hero::after{
-      content:"";position:absolute;inset:0;z-index:-1;
-      background:linear-gradient(180deg, rgba(11,15,20,.55), rgba(11,15,20,.92) 68%, rgba(11,15,20,1));
-    }
-    .hero .wrap{padding:64px 18px 44px}
-    .tag{display:inline-flex;gap:10px;align-items:center;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(18,24,35,.55);color:var(--muted);font-size:.92rem}
-    h1{margin:14px 0 10px;font-size:clamp(2rem, 5vw, 3.1rem);line-height:1.08;letter-spacing:.5px}
-    .lead{max-width:62ch;color:var(--muted);font-size:1.06rem}
-    .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
-
-    /* Cards */
-    .grid{display:grid;gap:14px}
-    .cards{grid-template-columns:repeat(12,1fr);margin-top:22px}
-    .card{grid-column:span 12;background:rgba(18,24,35,.72);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow)}
-    .card h3{margin:0 0 6px;font-size:1.05rem}
-    .card p{margin:0;color:var(--muted)}
-    @media(min-width:820px){ .card{grid-column:span 4} }
-
-    /* Sections */
-    section{padding:42px 0;border-top:1px solid var(--line)}
-    .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap}
-    .sec-head h2{margin:0;font-size:1.6rem}
-    .sec-head p{margin:0;color:var(--muted);max-width:66ch}
-
-    /* Services */
-    .services{grid-template-columns:repeat(12,1fr);margin-top:18px}
-    .svc{grid-column:span 12;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px}
-    .svc ul{margin:10px 0 0;padding-left:18px;color:var(--muted)}
-    @media(min-width:900px){ .svc{grid-column:span 6} }
-
-    /* Media blocks: MOBILE FIXES */
-    .band{display:grid;gap:14px;grid-template-columns:repeat(12,1fr);align-items:stretch}
-    .media{
-      grid-column:span 12;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);
-      background:#0e141e;
-      box-shadow:var(--shadow);
-      min-height: 260px; /* prevents blank blocks */
-      display:block;
-    }
-    .media img{
-      width:100%;
-      display:block;
-      object-fit:cover;
-      height:260px;       /* fixed height so mobile always shows image */
-      max-height:420px;
-      background:#0e141e;
-    }
-    .panel{grid-column:span 12;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px}
-    @media(min-width:900px){
-      .media{grid-column:span 6;min-height:320px}
-      .media img{height:100%;min-height:320px}
-      .panel{grid-column:span 6}
-    }
-    @media(max-width:640px){
-      .hero .wrap{padding:50px 18px 34px}
-      .media{min-height:220px}
-      .media img{height:220px}
-      .menu{gap:12px}
-    }
-
-    /* Steps */
-    .kv{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}
-    .kv div{padding:12px;border:1px dashed var(--line);border-radius:14px;color:var(--muted)}
-    .footer{padding:24px 0;color:var(--muted)}
-    .small{font-size:.92rem}
-    .hr{height:1px;background:var(--line);margin:14px 0}
-
-    /* Smooth anchor scroll */
-    html{scroll-behavior:smooth}
-  </style>
 </head>
 
 <body>
-  <header class="topbar">
-    <div class="wrap nav">
-      <a class="brand" href="#inicio" aria-label="Ir al inicio">
-        <img src="img/logo-interjama-web.png" alt="Logo INTERJAMA" />
-        <div>
-          <strong>INTERJAMA</strong><br />
-          <span class="small" style="color:var(--muted)">Comercio Internacional · Logística</span>
-        </div>
-      </a>
 
-      <nav class="menu" aria-label="Navegación">
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="img/logo-interjama-web.png" alt="INTERJAMA" />
+        <div class="brand-text">
+          <strong>INTERJAMA</strong>
+          <span>Comercio Internacional · Logística</span>
+        </div>
+      </div>
+
+      <nav class="nav">
         <a href="#servicios">Servicios</a>
         <a href="#operativa">Operativa</a>
         <a href="#contacto">Contacto</a>
@@ -145,201 +33,186 @@
     </div>
   </header>
 
-  <main id="inicio" class="hero">
-    <div class="wrap">
-      <span class="tag">Paso Internacional Jama · Argentina–Chile · Operaciones de frontera</span>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-overlay">
+      <div class="container hero-content">
+        <span class="hero-tag">
+          Paso Internacional Jama · Argentina–Chile · Operaciones de frontera
+        </span>
 
-      <h1>Comercio internacional y logística con foco en frontera</h1>
+        <h1>
+          Comercio internacional y logística<br />
+          con foco en frontera
+        </h1>
 
-      <p class="lead">
-        INTERJAMA brinda soporte operativo e institucional para movimientos de carga,
-        coordinación logística y gestiones vinculadas al cruce internacional, con presencia en el corredor Jama.
-      </p>
+        <p>
+          INTERJAMA brinda soporte operativo e institucional para movimientos de carga,
+          coordinación logística y gestiones vinculadas al cruce internacional,
+          con presencia activa en el corredor Jama.
+        </p>
 
-      <div class="hero-cta">
-        <a class="btn primary" href="#contacto">Contactar</a>
-        <a class="btn" href="#servicios">Ver servicios</a>
-      </div>
-
-      <div class="grid cards" aria-label="Diferenciales">
-        <div class="card">
-          <h3>Presencia en territorio</h3>
-          <p>Enfoque operativo en frontera y corredor Jama para coordinación y soporte.</p>
+        <div class="hero-actions">
+          <a href="#contacto" class="btn primary">Contactar</a>
+          <a href="#servicios" class="btn secondary">Ver servicios</a>
         </div>
-        <div class="card">
-          <h3>Gestión y coordinación</h3>
-          <p>Orden, trazabilidad documental y respuesta ágil ante requerimientos.</p>
-        </div>
-        <div class="card">
-          <h3>Enfoque institucional</h3>
-          <p>Comunicación clara, presentación formal y cumplimiento de procesos.</p>
+
+        <div class="hero-cards">
+          <div class="card">
+            <h3>Presencia en territorio</h3>
+            <p>
+              Enfoque operativo en frontera y corredor Jama para coordinación y soporte.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>Gestión y coordinación</h3>
+            <p>
+              Orden, trazabilidad documental y respuesta ágil ante requerimientos.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>Enfoque institucional</h3>
+            <p>
+              Comunicación clara, presentación formal y cumplimiento de procesos.
+            </p>
+          </div>
         </div>
       </div>
     </div>
-  </main>
+  </section>
 
-  <section id="servicios">
-    <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <h2>Servicios</h2>
-          <p>Paquetes de soporte adaptables según necesidad: coordinación, documentación y logística de frontera.</p>
-        </div>
-      </div>
+  <!-- SERVICIOS -->
+  <section id="servicios" class="section">
+    <div class="container">
+      <h2>Servicios</h2>
+      <p class="section-intro">
+        Paquetes de soporte adaptables según necesidad: coordinación, documentación
+        y logística de frontera.
+      </p>
 
-      <div class="grid services">
-        <article class="svc">
+      <div class="grid">
+        <div class="card">
           <h3>Soporte operativo de frontera</h3>
           <ul>
             <li>Coordinación de arribos y salidas</li>
             <li>Gestión de información crítica y seguimiento</li>
             <li>Comunicación operativa con actores del corredor</li>
           </ul>
-        </article>
+        </div>
 
-        <article class="svc">
+        <div class="card">
           <h3>Gestión documental y acompañamiento</h3>
           <ul>
             <li>Checklist documental para presentación</li>
             <li>Orden de información para procesos internos</li>
             <li>Asistencia institucional y reportes</li>
           </ul>
-        </article>
+        </div>
 
-        <article class="svc">
+        <div class="card">
           <h3>Logística y coordinación</h3>
           <ul>
             <li>Organización de flujo operativo</li>
-            <li>Soporte a transportistas / empresas</li>
-            <li>Reportes de estado (alta/medio/bajo)</li>
+            <li>Soporte a transportistas y empresas</li>
+            <li>Reportes de estado (alto / medio / bajo)</li>
           </ul>
-        </article>
+        </div>
 
-        <article class="svc">
+        <div class="card">
           <h3>Presencia digital institucional</h3>
           <ul>
             <li>Landing page de presentación</li>
             <li>Material corporativo básico</li>
             <li>Canales de contacto y visibilidad</li>
           </ul>
-        </article>
+        </div>
       </div>
     </div>
   </section>
 
-  <section id="operativa">
-    <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <h2>Operativa en el corredor Jama</h2>
-          <p>Una mirada rápida del enfoque: orden, coordinación y trazabilidad.</p>
-        </div>
+  <!-- OPERATIVA -->
+  <section id="operativa" class="section section-alt">
+    <div class="container two-cols">
+      <div class="media">
+        <img
+          src="img/ruta-camion-interjama-1920x1080.jpg"
+          alt="Operativa en el corredor Jama"
+          loading="lazy"
+          decoding="async"
+        />
       </div>
 
-      <div class="band" style="margin-top:18px">
-        <div class="media">
-          <img
-            src="img/ruta-camion-interjama-1920x1080.jpg"
-            alt="Ruta y logística - INTERJAMA"
-            loading="lazy"
-            decoding="async"
-          />
-        </div>
-        <div class="panel">
-          <h3 style="margin:0 0 8px">Cómo trabajamos</h3>
-          <p style="margin:0;color:var(--muted)">
-            Priorizamos claridad operativa, seguimiento y comunicación institucional.
-            El objetivo es reducir fricción, anticipar problemas y sostener una coordinación eficiente.
-          </p>
+      <div class="content">
+        <h2>Operativa en el corredor Jama</h2>
+        <p>
+          Una mirada rápida del enfoque: orden, coordinación y trazabilidad.
+        </p>
 
-          <div class="kv">
-            <div><strong>1)</strong> Relevamiento y checklist inicial (documentos + estado operativo).</div>
-            <div><strong>2)</strong> Coordinación y seguimiento en corredor (estado y prioridades).</div>
-            <div><strong>3)</strong> Cierre con reporte breve (decisiones y próximos pasos).</div>
+        <div class="steps">
+          <div class="step">
+            <strong>1)</strong> Relevamiento y checklist inicial
+            (documentos + estado operativo).
           </div>
-
-          <div class="hr"></div>
-
-          <p class="small" style="margin:0;color:var(--muted)">
-            Nota: este sitio es una versión institucional en evolución. Ajustaremos contenido y servicios a medida que INTERJAMA formalice sus paquetes comerciales.
-          </p>
-        </div>
-      </div>
-
-      <div class="band" style="margin-top:14px">
-        <div class="media">
-          <img
-            src="img/paisaje-interjama-1600x900.jpg"
-            alt="Entorno y corredor - INTERJAMA"
-            loading="lazy"
-            decoding="async"
-          />
-        </div>
-        <div class="panel">
-          <h3 style="margin:0 0 8px">Presencia y entorno</h3>
-          <p style="margin:0;color:var(--muted)">
-            El Paso Jama es un punto estratégico. Trabajamos con foco en
-            logística y soporte operativo, contemplando condiciones de ruta, tiempos y coordinación.
-          </p>
-
-          <div class="hero-cta" style="margin-top:14px">
-            <a class="btn" href="#contacto">Solicitar contacto</a>
-            <a class="btn" href="mailto:contacto@interjama.com">Enviar email</a>
+          <div class="step">
+            <strong>2)</strong> Coordinación y seguimiento en corredor
+            (estado y prioridades).
+          </div>
+          <div class="step">
+            <strong>3)</strong> Cierre con reporte breve
+            (decisiones y próximos pasos).
           </div>
         </div>
+
+        <p class="note">
+          Nota: este sitio es una versión institucional en evolución.
+          Ajustaremos contenidos y servicios a medida que INTERJAMA
+          formalice sus paquetes comerciales.
+        </p>
       </div>
     </div>
   </section>
 
-  <section id="contacto">
-    <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <h2>Contacto</h2>
-          <p>Escribinos para coordinación, consultas institucionales o presentación comercial.</p>
-        </div>
+  <!-- CONTACTO -->
+  <section id="contacto" class="section">
+    <div class="container two-cols">
+      <div class="media">
+        <img
+          src="img/sede-interjama-1600x900.jpg"
+          alt="Sede INTERJAMA"
+          loading="lazy"
+          decoding="async"
+        />
       </div>
 
-      <div class="band" style="margin-top:18px">
-        <div class="panel">
-          <h3 style="margin:0 0 8px">Canales</h3>
-          <p style="margin:0;color:var(--muted)">Email institucional:</p>
+      <div class="content">
+        <h2>Contacto</h2>
+        <p>
+          Escribinos para coordinación, consultas institucionales
+          o presentación comercial.
+        </p>
 
-          <p style="margin:10px 0 0;font-size:1.12rem">
-            <a class="btn primary" href="mailto:contacto@interjama.com">contacto@interjama.com</a>
-          </p>
-
-          <div class="hr"></div>
-
-          <p class="small" style="margin:0;color:var(--muted)">
-            Respuesta estimada: 24–48 hs hábiles.
-          </p>
-        </div>
-
-        <div class="media">
-          <img
-            src="img/sede-interjama-1600x900.jpg"
-            alt="Sede / Operaciones - INTERJAMA"
-            loading="lazy"
-            decoding="async"
-          />
+        <div class="contact-box">
+          <span>Email institucional</span>
+          <a href="mailto:contacto@interjama.com" class="email">
+            contacto@interjama.com
+          </a>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- FOOTER -->
   <footer class="footer">
-    <div class="wrap">
-      <div class="hr"></div>
-      <p class="small" style="margin:0">
-        © <span id="y"></span> INTERJAMA · Todos los derechos reservados.
+    <div class="container">
+      <p>
+        © INTERJAMA · Comercio Internacional y Logística · Todos los derechos reservados
       </p>
     </div>
   </footer>
 
-  <script>
-    document.getElementById("y").textContent = new Date().getFullYear();
-  </script>
 </body>
 </html>
+
 
