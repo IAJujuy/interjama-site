@@ -1,0 +1,481 @@
+/* ==========================
+   INTERJAMA – style.css (FINAL)
+   - Hero nítido (sin transparencia)
+   - Panel arriba/derecha (no tapa el camión)
+   - Imágenes SIEMPRE cargan con rutas relativas
+   ========================== */
+
+/* Reset */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body{
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: #0f172a;
+  line-height: 1.45;
+  background: #f8fafc;
+}
+
+/* Variables */
+:root{
+  --maxw: 1240px;
+  --gutter: clamp(16px, 3.5vw, 40px);
+  --radius: 18px;
+  --border: rgba(15, 23, 42, 0.10);
+  --shadow: 0 14px 40px rgba(2, 6, 23, 0.10);
+  --shadow-soft: 0 10px 28px rgba(2, 6, 23, 0.08);
+}
+
+/* Contenedor */
+.container{
+  width: min(var(--maxw), 100%);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* HEADER */
+.header{
+  padding: 16px 0 10px;
+  background: transparent;
+}
+
+.header-inner{
+  display: flex;
+  justify-content: center; /* CENTRADO HORIZONTAL */
+  align-items: center;
+}
+
+.brand-logo{
+  max-height: 64px;
+  width: auto;
+  display: block;
+}
+
+@media (max-width: 768px){
+  .brand-logo{ max-height: 52px; }
+}
+
+/* HERO */
+.hero{
+  position: relative;
+  margin-top: 8px;
+  margin-bottom: 18px;
+}
+
+/* Imagen hero: SIN filtros, SIN opacidad */
+.hero-img{
+  display: block;
+  width: 100%;
+  height: clamp(360px, 52vw, 560px);
+  object-fit: cover;
+
+  /* encuadre hacia abajo para dejar camión visible */
+  object-position: center 84%;
+
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Texto hero: centrado bajo el logo, SIN caja */
+.hero-box{
+  position: absolute;
+  top: clamp(16px, 3vw, 30px);
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: min(700px, 92%);
+  text-align: center;
+
+  background: none;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+}
+
+.hero-box h1{
+  margin: 0 0 6px 0;
+  font-size: clamp(24px, 2.4vw, 34px);
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+.hero-box p{
+  margin: 0;
+  font-size: clamp(14px, 1.35vw, 16px);
+  color: rgba(255,255,255,0.92);
+}
+
+
+/* SERVICES */
+.services{
+  padding: 10px 0 26px;
+}
+
+.services-grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(12px, 2.2vw, 22px);
+}
+
+.service{
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+.service img{
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+.service h3{
+  margin: 14px 16px 6px;
+  font-size: 18px;
+}
+
+.service p{
+  margin: 0 16px 16px;
+  color: rgba(15, 23, 42, 0.72);
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 980px){
+  .services-grid{ grid-template-columns: 1fr; }
+  .service img{ height: 240px; }
+}
+
+/* FOOTER */
+.footer{
+  padding: 18px 0 26px;
+  color: rgba(15, 23, 42, 0.65);
+  font-size: 13px;
+}
+
+/* ==========================
+   PERFIL CORPORATIVO (entre hero y servicios)
+   ========================== */
+
+.profile{
+  margin: 14px 0 18px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;               /* para que el radio recorte todo */
+  background: #241f1f;            /* oscuro tipo Canva */
+}
+
+/* Caja interna con mismo “peso” que hero */
+.profile-inner{
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: clamp(16px, 2.2vw, 26px);
+  padding: clamp(18px, 2.6vw, 30px);
+  align-items: center;
+  min-height: clamp(360px, 52vw, 560px); /* misma familia de alto que hero */
+}
+
+.profile-text{
+  color: #fff;
+}
+
+.profile-text h2{
+  margin: 0 0 16px 0;
+  font-size: clamp(26px, 2.7vw, 40px);
+  line-height: 1.05;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.profile-text p{
+  margin: 0 0 12px 0;
+  max-width: 62ch;
+  color: rgba(255,255,255,0.86);
+  font-size: 14.5px;
+  line-height: 1.45;
+}
+
+.profile-text p strong{
+  color: #ffffff;
+  font-weight: 800;
+}
+
+/* Columna derecha */
+.profile-media{
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.profile-media img{
+  width: 100%;
+  height: clamp(300px, 44vw, 500px);
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.10);
+}
+
+/* Botón “PERFIL CORPORATIVO” */
+.profile-cta{
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 14px;
+  border-radius: 999px;
+
+  background: rgba(255,255,255,0.88);
+  color: rgba(15, 23, 42, 0.65);
+
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+
+  border: 1px solid rgba(255,255,255,0.35);
+}
+
+.profile-cta:hover{
+  background: rgba(255,255,255,0.96);
+}
+
+/* Responsive */
+@media (max-width: 980px){
+  .profile-inner{
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .profile-media img{
+    height: 360px;
+  }
+  .profile-cta{
+    right: 14px;
+    bottom: 14px;
+  }
+}
+
+.section-what {
+  max-width: 1200px;
+  margin: 80px auto;
+  padding: 0 24px;
+}
+
+.what-inner {
+  background: #f6f6f6;
+  border-radius: 28px;
+  padding: 64px; /* ← IGUAL que la caja negra */
+}
+
+
+.what-inner h2 {
+  color: #b11217;
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.what-inner h3 {
+  color: #b11217;
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 32px;
+  max-width: 820px;
+}
+
+.what-inner p {
+  color: #555;
+  font-size: 16px;
+  line-height: 1.65;
+  max-width: 820px;
+  margin-bottom: 18px;
+}
+
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 32px 0;
+}
+
+.chips span {
+  background: #ffffff;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  color: #333;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.what-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 32px;
+  gap: 24px;
+}
+
+.what-left p {
+  color: #b11217;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.what-right {
+  color: #666;
+  font-size: 14px;
+  text-align: right;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .what-inner {
+    padding: 40px 32px;
+  }
+
+  .what-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .what-right {
+    text-align: left;
+  }
+}
+
+/* ==========================
+   QUE HACEMOS (imagen exacta tipo hero)
+   - Misma escala/alto que el HERO
+   - Sin recorte: object-fit: contain
+   ========================== */
+
+/* QUE HACEMOS (imagen exacta tipo hero) */
+.what-slice{
+  margin: 14px 0 18px; /* igual que profile */
+}
+
+.what-slice-img{
+  display: block;
+  width: 100%;
+
+  /* MISMA altura que el HERO */
+  height: clamp(360px, 52vw, 560px);
+
+  object-fit: cover;  /* respeta la imagen exacta */
+  object-position: center;
+
+  background: #f6f6f6;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
+}
+
+/* ==========================
+   FOOTER – Contacto (abajo derecha)
+   ========================== */
+
+.footer{
+  padding: 18px 0 26px;
+  color: rgba(15, 23, 42, 0.65);
+  font-size: 13px;
+}
+
+.footer-inner{
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.footer-left{
+  padding: 6px 0;
+}
+
+.footer-right{
+  display: flex;
+  align-items: flex-end;
+  gap: 26px;
+}
+
+/* Bloque de datos (SIN CAJA) */
+.footer-contact{
+  padding: 0;
+  min-width: 260px;
+}
+
+.footer-contact p{
+  margin: 0 0 8px 0;
+  color: rgba(15, 23, 42, 0.78);
+  line-height: 1.35;
+}
+
+.footer-contact p:last-child{
+  margin-bottom: 0;
+}
+
+/* Bloque redes (SIN CAJA) */
+.footer-social{
+  padding: 0;
+  min-width: 210px;
+}
+
+.footer-social p{
+  margin: 0 0 10px 0;
+  color: rgba(15, 23, 42, 0.78);
+  font-weight: 600;
+}
+
+.social-icons{
+  display: flex;
+  gap: 10px;
+}
+
+.social{
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: rgba(255,255,255,0.95);
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  text-decoration: none;
+}
+
+.social svg{
+  width: 18px;
+  height: 18px;
+  fill: rgba(15, 23, 42, 0.75);
+}
+
+.social:hover{
+  transform: translateY(-1px);
+}
+
+/* Responsive: en celular se apila y sigue prolijo */
+@media (max-width: 900px){
+  .footer-inner{
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .footer-right{
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .footer-contact,
+  .footer-social{
+    min-width: auto;
+  }
+}
