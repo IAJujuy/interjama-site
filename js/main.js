@@ -1,1 +1,0 @@
-// Interjama site - JS placeholder
