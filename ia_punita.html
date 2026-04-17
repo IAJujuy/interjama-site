@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IA punita | Interjama</title>
+    <meta name="description" content="IA punita, asistente inicial de Interjama para orientar consultas de comercio exterior y derivarlas al canal correcto." />
+    <style>
+        :root {
+          --bg: #f1ece6;
+          --surface: #f8f6f0;
+          --surface-2: #ffffff;
+          --text: #1f2a37;
+          --muted: #5b6573;
+          --line: #d8d2ca;
+          --accent: #223448;
+          --accent-soft: #e9eef3;
+          --shadow: 0 18px 50px rgba(31, 42, 55, 0.08);
+          --radius-xl: 26px;
+          --radius-lg: 18px;
+          --radius-md: 14px;
+          --max: 760px;
+        }
+
+        * {
+          box-sizing: border-box;
+        }
+
+        html {
+          scroll-behavior: smooth;
+        }
+
+        body {
+          margin: 0;
+          font-family: Arial, Helvetica, sans-serif;
+          background: var(--bg);
+          color: var(--text);
+          min-height: 100vh;
+        }
+
+        .shell {
+          width: 100%;
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 22px 14px;
+        }
+
+        .app {
+          width: 100%;
+          max-width: var(--max);
+          background: linear-gradient(180deg, rgba(255,255,255,0.78) 0%, rgba(248,246,240,0.96) 100%);
+          border: 1px solid rgba(216,210,202,0.95);
+          border-radius: 32px;
+          box-shadow: var(--shadow);
+          overflow: hidden;
+          backdrop-filter: blur(10px);
+        }
+
+        .topbar {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 16px;
+          padding: 18px 18px 14px;
+          border-bottom: 1px solid rgba(216,210,202,0.8);
+          background: rgba(241, 236, 230, 0.86);
+        }
+
+        .brand {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          min-width: 0;
+        }
+
+        .badge {
+          width: 46px;
+          height: 46px;
+          border-radius: 50%;
+          background: var(--accent);
+          color: #fff;
+          display: grid;
+          place-items: center;
+          font-size: 13px;
+          font-weight: 700;
+          letter-spacing: 0.04em;
+          flex: 0 0 auto;
+        }
+
+        .brand-copy {
+          min-width: 0;
+        }
+
+        .brand-copy .eyebrow {
+          font-size: 12px;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          color: var(--muted);
+          margin-bottom: 4px;
+        }
+
+        .brand-copy h1 {
+          margin: 0;
+          font-size: 22px;
+          line-height: 1.1;
+        }
+
+        .brand-copy p {
+          margin: 6px 0 0;
+          color: var(--muted);
+          font-size: 14px;
+          line-height: 1.35;
+        }
+
+        .back-link {
+          text-decoration: none;
+          color: var(--accent);
+          background: var(--surface);
+          border: 1px solid var(--line);
+          border-radius: 999px;
+          padding: 11px 14px;
+          font-size: 14px;
+          font-weight: 700;
+          white-space: nowrap;
+          transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .back-link:hover {
+          background: var(--surface-2);
+          transform: translateY(-1px);
+        }
+
+        .content {
+          padding: 22px 16px 18px;
+        }
+
+        .hero {
+          background: var(--surface-2);
+          border: 1px solid var(--line);
+          border-radius: var(--radius-xl);
+          padding: 18px;
+          margin-bottom: 16px;
+        }
+
+        .hero h2 {
+          margin: 0 0 10px;
+          font-size: 28px;
+          line-height: 1.08;
+        }
+
+        .hero p {
+          margin: 0;
+          color: var(--muted);
+          font-size: 15px;
+          line-height: 1.5;
+        }
+
+        .status {
+          margin-top: 14px;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: var(--accent-soft);
+          color: var(--accent);
+          border-radius: 999px;
+          padding: 10px 14px;
+          font-size: 13px;
+          font-weight: 700;
+        }
+
+        .status::before {
+          content: "";
+          width: 9px;
+          height: 9px;
+          border-radius: 50%;
+          background: #2a6a56;
+          display: inline-block;
+        }
+
+        .panel {
+          background: var(--surface);
+          border: 1px solid var(--line);
+          border-radius: var(--radius-xl);
+          padding: 16px;
+        }
+
+        .step {
+          display: none;
+          animation: fade 0.25s ease;
+        }
+
+        .step.active {
+          display: block;
+        }
+
+        @keyframes fade {
+          from {
+            opacity: 0;
+            transform: translateY(8px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .step-label {
+          display: inline-block;
+          font-size: 12px;
+          text-transform: uppercase;
+          letter-spacing: 0.12em;
+          color: var(--muted);
+          margin-bottom: 10px;
+        }
+
+        .step h3 {
+          margin: 0 0 8px;
+          font-size: 24px;
+          line-height: 1.15;
+        }
+
+        .step p {
+          margin: 0 0 16px;
+          color: var(--muted);
+          font-size: 15px;
+          line-height: 1.45;
+        }
+
+        .options {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+
+        .option-btn,
+        .action-btn,
+        .secondary-btn {
+          width: 100%;
+          border: 1px solid var(--line);
+          border-radius: var(--radius-lg);
+          padding: 16px;
+          text-align: left;
+          font: inherit;
+          cursor: pointer;
+          transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .option-btn {
+          background: var(--surface-2);
+          color: var(--text);
+        }
+
+        .option-btn:hover,
+        .option-btn:focus-visible {
+          transform: translateY(-1px);
+          box-shadow: 0 12px 26px rgba(31, 42, 55, 0.08);
+          border-color: #c0b7ad;
+          outline: none;
+        }
+
+        .option-btn strong {
+          display: block;
+          font-size: 17px;
+          margin-bottom: 4px;
+        }
+
+        .option-btn span {
+          display: block;
+          font-size: 14px;
+          color: var(--muted);
+          line-height: 1.35;
+        }
+
+        .form-grid {
+          display: grid;
+          gap: 12px;
+          margin-top: 2px;
+        }
+
+        label {
+          display: block;
+          font-size: 14px;
+          font-weight: 700;
+          margin-bottom: 8px;
+        }
+
+        input,
+        select,
+        textarea {
+          width: 100%;
+          border: 1px solid var(--line);
+          border-radius: var(--radius-md);
+          padding: 14px 14px;
+          font: inherit;
+          color: var(--text);
+          background: #fff;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+          outline: none;
+          border-color: var(--accent);
+          box-shadow: 0 0 0 3px rgba(34, 52, 72, 0.08);
+        }
+
+        textarea {
+          min-height: 110px;
+          resize: vertical;
+        }
+
+        .summary {
+          background: #fff;
+          border: 1px solid var(--line);
+          border-radius: var(--radius-lg);
+          padding: 14px;
+          margin-top: 2px;
+        }
+
+        .summary-row {
+          padding: 8px 0;
+          border-bottom: 1px solid rgba(216,210,202,0.65);
+          font-size: 14px;
+        }
+
+        .summary-row:last-child {
+          border-bottom: none;
+        }
+
+        .summary-row strong {
+          display: block;
+          margin-bottom: 3px;
+          font-size: 12px;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          color: var(--muted);
+        }
+
+        .actions {
+          display: grid;
+          gap: 10px;
+          margin-top: 16px;
+        }
+
+        .action-btn {
+          background: var(--accent);
+          color: #fff;
+          text-align: center;
+          font-weight: 700;
+          border-color: var(--accent);
+        }
+
+        .action-btn:hover,
+        .action-btn:focus-visible {
+          background: #182536;
+          transform: translateY(-1px);
+          outline: none;
+        }
+
+        .secondary-btn {
+          background: transparent;
+          color: var(--accent);
+          text-align: center;
+          font-weight: 700;
+        }
+
+        .secondary-btn:hover,
+        .secondary-btn:focus-visible {
+          background: rgba(255,255,255,0.7);
+          outline: none;
+        }
+
+        .footnote {
+          margin-top: 14px;
+          font-size: 13px;
+          color: var(--muted);
+          line-height: 1.45;
+        }
+
+        .microcopy {
+          margin-top: 12px;
+          color: var(--muted);
+          font-size: 13px;
+          line-height: 1.45;
+        }
+
+        @media (min-width: 700px) {
+          .content {
+            padding: 24px;
+          }
+
+          .hero,
+          .panel {
+            padding: 22px;
+          }
+
+          .options {
+            grid-template-columns: 1fr 1fr;
+          }
+
+          .actions {
+            grid-template-columns: 1fr 1fr;
+          }
+
+          .form-grid.two-columns {
+            grid-template-columns: 1fr 1fr;
+          }
+
+          .form-grid .full-width {
+            grid-column: 1 / -1;
+          }
+        }
+
+        @media (max-width: 560px) {
+          .topbar {
+            align-items: flex-start;
+            flex-direction: column;
+          }
+
+          .back-link {
+            width: 100%;
+            text-align: center;
+          }
+
+          .hero h2 {
+            font-size: 24px;
+          }
+
+          .step h3 {
+            font-size: 22px;
+          }
+        }
+    </style>
+</head>
+<body>
+<div class="shell">
+    <main class="app" aria-label="IA punita de Interjama">
+        <header class="topbar">
+            <div class="brand">
+                <div class="badge" aria-hidden="true">IA</div>
+                <div class="brand-copy">
+                    <div class="eyebrow">Interjama</div>
+                    <h1>IA punita</h1>
+                    <p>Asistencia inicial para orientar consultas y derivarlas al canal correcto.</p>
+                </div>
+            </div>
+            <a class="back-link" href="index.html">Volver al sitio</a>
+        </header>
+
+        <section class="content">
+            <div class="hero">
+                <h2>Su consulta entra por la puerta correcta.</h2>
+                <p>
+                    IA punita realiza una orientación inicial simple. Usted elige el tipo de operación,
+                    deja datos básicos y continúa por WhatsApp con un mensaje ya ordenado.
+                </p>
+                <div class="status">Atención inicial activa</div>
+            </div>
+
+            <div class="panel">
+                <section id="step-1" class="step active" aria-labelledby="step-1-title">
+                    <span class="step-label">Paso 1 de 3</span>
+                    <h3 id="step-1-title">¿En qué tipo de operación necesita ayuda?</h3>
+                    <p>Seleccione una opción para preparar la derivación.</p>
+
+                    <div class="options">
+                        <button class="option-btn" data-service="Agente de Transporte">
+                            <strong>Agente de transporte</strong>
+                            <span>Coordinación, tránsito, cargas, documentación y movimientos operativos.</span>
+                        </button>
+
+                        <button class="option-btn" data-service="Despachante de Aduana">
+                            <strong>Despachante de Aduana</strong>
+                            <span>Gestión aduanera, documentación y seguimiento del proceso.</span>
+                        </button>
+
+                        <button class="option-btn" data-service="Importación / Exportación">
+                            <strong>Importación / exportación</strong>
+                            <span>Consultas generales sobre operaciones de comercio exterior.</span>
+                        </button>
+
+                        <button class="option-btn" data-service="Hablar con Interjama">
+                            <strong>Hablar con Interjama</strong>
+                            <span>Contacto directo con el equipo para una consulta institucional o comercial.</span>
+                        </button>
+                    </div>
+                </section>
+
+                <section id="step-2" class="step" aria-labelledby="step-2-title">
+                    <span class="step-label">Paso 2 de 3</span>
+                    <h3 id="step-2-title">Datos de la consulta</h3>
+                    <p>Ahora la salida queda identificada, fechada, clasificada y con origen.</p>
+
+                    <div class="form-grid two-columns">
+                        <div class="full-width">
+                            <label for="name">Nombre y apellido *</label>
+                            <input id="name" name="name" type="text" placeholder="Ej.: Juan Pérez" autocomplete="name" />
+                        </div>
+
+                        <div>
+                            <label for="company">Empresa</label>
+                            <input id="company" name="company" type="text" placeholder="Ej.: Logística Andina" />
+                        </div>
+
+                        <div>
+                            <label for="city">Ciudad</label>
+                            <input id="city" name="city" type="text" placeholder="Ej.: San Salvador de Jujuy" />
+                        </div>
+
+                        <div>
+                            <label for="country">País *</label>
+                            <input id="country" name="country" type="text" placeholder="Ej.: Argentina" autocomplete="country-name" />
+                        </div>
+
+                        <div>
+                            <label for="clientType">Tipo de cliente *</label>
+                            <select id="clientType" name="clientType">
+                                <option value="">Seleccione una opción</option>
+                                <option value="Empresa">Empresa</option>
+                                <option value="Particular">Particular</option>
+                                <option value="Transportista">Transportista</option>
+                            </select>
+                        </div>
+
+                        <div class="full-width">
+                            <label for="details">Detalle breve de la consulta</label>
+                            <textarea id="details" name="details" placeholder="Ej.: Necesito orientación por una operación en frontera..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <button class="secondary-btn" id="back-to-step-1" type="button">Volver</button>
+                        <button class="action-btn" id="to-step-3" type="button">Continuar</button>
+                    </div>
+                </section>
+
+                <section id="step-3" class="step" aria-labelledby="step-3-title">
+                    <span class="step-label">Paso 3 de 3</span>
+                    <h3 id="step-3-title">Listo para derivar a WhatsApp</h3>
+                    <p>Revise la información. Al continuar se abrirá WhatsApp con el mensaje prearmado.</p>
+
+                    <div class="summary" aria-live="polite">
+                        <div class="summary-row">
+                            <strong>ID de consulta</strong>
+                            <div id="summary-id">-</div>
+                        </div>
+                        <div class="summary-row">
+                            <strong>Fecha y hora</strong>
+                            <div id="summary-date">-</div>
+                        </div>
+                        <div class="summary-row">
+                            <strong>Origen</strong>
+                            <div id="summary-origin">-</div>
+                        </div>
+                        <div class="summary-row">
+                            <strong>Tipo de operación</strong>
+                            <div id="summary-service">-</div>
+                        </div>
+                        <div class="summary-row">
+                            <strong>Tipo de cliente</strong>
+                            <div id="summary-client-type">-</div>
+                        </div>
+                        <div class="summary-row">
+                            <strong>Nombre</strong>
+                            <div id="summary-name">-</div>
+                        </div>
+                        <div class="summary-row">
+                            <strong>Empresa</strong>
+                            <div id="summary-company">-</div>
+                        </div>
+                        <div class="summary-row">
+                            <strong>Ciudad</strong>
+                            <div id="summary-city">-</div>
+                        </div>
+                        <div class="summary-row">
+                            <strong>País</strong>
+                            <div id="summary-country">-</div>
+                        </div>
+                        <div class="summary-row">
+                            <strong>Detalle</strong>
+                            <div id="summary-details">-</div>
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <button class="secondary-btn" id="back-to-step-2" type="button">Corregir datos</button>
+                        <button class="action-btn" id="send-whatsapp" type="button">Ir a WhatsApp</button>
+                    </div>
+
+                    <p class="footnote">
+                        Esta versión ya genera identificación básica de consulta para atención comercial ordenada.
+                    </p>
+                </section>
+            </div>
+
+            <p class="microcopy">
+                Atención: esta versión es una agente IA funcional de nivel 1 reforzada. Ordena el ingreso,
+                identifica la consulta y la deriva correctamente sin fricción innecesaria.
+            </p>
+        </section>
+    </main>
+</div>
+
+<script>
+    const WHATSAPP_NUMBER = "5493885927238"; // REEMPLAZAR por el número real de WhatsApp de Interjama
+    const ORIGIN_LABEL = "Web Interjama";
+
+    const state = {
+      service: "",
+      name: "",
+      company: "",
+      city: "",
+      country: "",
+      clientType: "",
+      details: "",
+      origin: ORIGIN_LABEL,
+      consultationId: "",
+      createdAtIso: "",
+      createdAtDisplay: ""
+    };
+
+    const step1 = document.getElementById("step-1");
+    const step2 = document.getElementById("step-2");
+    const step3 = document.getElementById("step-3");
+
+    const nameInput = document.getElementById("name");
+    const companyInput = document.getElementById("company");
+    const cityInput = document.getElementById("city");
+    const countryInput = document.getElementById("country");
+    const clientTypeInput = document.getElementById("clientType");
+    const detailsInput = document.getElementById("details");
+
+    const summaryId = document.getElementById("summary-id");
+    const summaryDate = document.getElementById("summary-date");
+    const summaryOrigin = document.getElementById("summary-origin");
+    const summaryService = document.getElementById("summary-service");
+    const summaryClientType = document.getElementById("summary-client-type");
+    const summaryName = document.getElementById("summary-name");
+    const summaryCompany = document.getElementById("summary-company");
+    const summaryCity = document.getElementById("summary-city");
+    const summaryCountry = document.getElementById("summary-country");
+    const summaryDetails = document.getElementById("summary-details");
+
+    function showStep(stepToShow) {
+      [step1, step2, step3].forEach((step) => step.classList.remove("active"));
+      stepToShow.classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function updateStateFromForm() {
+      state.name = nameInput.value.trim();
+      state.company = companyInput.value.trim();
+      state.city = cityInput.value.trim();
+      state.country = countryInput.value.trim();
+      state.clientType = clientTypeInput.value.trim();
+      state.details = detailsInput.value.trim();
+      state.origin = ORIGIN_LABEL;
+    }
+
+    function pad(value) {
+      return String(value).padStart(2, "0");
+    }
+
+    function formatDisplayDate(date) {
+      return date.toLocaleString("es-AR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+      });
+    }
+
+    function generateConsultationId(date) {
+      const yyyy = date.getFullYear();
+      const mm = pad(date.getMonth() + 1);
+      const dd = pad(date.getDate());
+      const hh = pad(date.getHours());
+      const mi = pad(date.getMinutes());
+      const ss = pad(date.getSeconds());
+      const random = String(Math.floor(Math.random() * 9000) + 1000);
+      return `IJ-${yyyy}${mm}${dd}-${hh}${mi}${ss}-${random}`;
+    }
+
+    function ensureTrackingData() {
+      if (!state.consultationId || !state.createdAtIso || !state.createdAtDisplay) {
+        const now = new Date();
+        state.consultationId = generateConsultationId(now);
+        state.createdAtIso = now.toISOString();
+        state.createdAtDisplay = formatDisplayDate(now);
+      }
+    }
+
+    function updateSummary() {
+      summaryId.textContent = state.consultationId || "-";
+      summaryDate.textContent = state.createdAtDisplay || "-";
+      summaryOrigin.textContent = state.origin || "-";
+      summaryService.textContent = state.service || "-";
+      summaryClientType.textContent = state.clientType || "-";
+      summaryName.textContent = state.name || "-";
+      summaryCompany.textContent = state.company || "No indicada";
+      summaryCity.textContent = state.city || "No indicada";
+      summaryCountry.textContent = state.country || "-";
+      summaryDetails.textContent = state.details || "Sin detalle adicional";
+    }
+
+    function buildWhatsAppMessage() {
+      const lines = [
+        "Hola, vengo desde IA punita de Interjama.",
+        "",
+        "ID de consulta: " + (state.consultationId || "No generado"),
+        "Fecha y hora: " + (state.createdAtDisplay || "No indicada"),
+        "Origen: " + (state.origin || "No indicado"),
+        "Tipo de operación: " + (state.service || "No indicado"),
+        "Tipo de cliente: " + (state.clientType || "No indicado"),
+        "Nombre: " + (state.name || "No indicado"),
+        "Empresa: " + (state.company || "No indicada"),
+        "Ciudad: " + (state.city || "No indicada"),
+        "País: " + (state.country || "No indicado"),
+        "Detalle: " + (state.details || "Sin detalle adicional"),
+        "",
+        "Solicito contacto y orientación inicial."
+      ];
+
+      return encodeURIComponent(lines.join("\n"));
+    }
+
+    document.querySelectorAll(".option-btn").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.service = button.dataset.service || "";
+        showStep(step2);
+        setTimeout(() => nameInput.focus(), 100);
+      });
+    });
+
+    document.getElementById("back-to-step-1").addEventListener("click", () => {
+      showStep(step1);
+    });
+
+    document.getElementById("to-step-3").addEventListener("click", () => {
+      updateStateFromForm();
+
+      if (!state.name) {
+        alert("Ingrese el nombre y apellido antes de continuar.");
+        nameInput.focus();
+        return;
+      }
+
+      if (!state.country) {
+        alert("Ingrese el país antes de continuar.");
+        countryInput.focus();
+        return;
+      }
+
+      if (!state.clientType) {
+        alert("Seleccione el tipo de cliente antes de continuar.");
+        clientTypeInput.focus();
+        return;
+      }
+
+      ensureTrackingData();
+      updateSummary();
+      showStep(step3);
+    });
+
+    document.getElementById("back-to-step-2").addEventListener("click", () => {
+      showStep(step2);
+    });
+
+    document.getElementById("send-whatsapp").addEventListener("click", () => {
+      updateStateFromForm();
+
+      if (!state.name) {
+        alert("Ingrese el nombre y apellido antes de continuar.");
+        showStep(step2);
+        nameInput.focus();
+        return;
+      }
+
+      if (!state.country) {
+        alert("Ingrese el país antes de continuar.");
+        showStep(step2);
+        countryInput.focus();
+        return;
+      }
+
+      if (!state.clientType) {
+        alert("Seleccione el tipo de cliente antes de continuar.");
+        showStep(step2);
+        clientTypeInput.focus();
+        return;
+      }
+
+      ensureTrackingData();
+      updateSummary();
+
+      const message = buildWhatsAppMessage();
+      const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
+      window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+    });
+</script>
+</body>
+</html>
