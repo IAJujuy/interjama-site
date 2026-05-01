@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bandeja interna de consultas | Interjama</title>
+  <meta name="description" content="Bandeja interna para gestionar consultas comerciales generadas por IA punita." />
+  <style>
+    :root {
+      --bg: #f1ece6;
+      --surface: #f8f6f0;
+      --card: #ffffff;
+      --text: #1f2a37;
+      --muted: #5b6573;
+      --line: #d8d2ca;
+      --accent: #223448;
+      --accent-soft: #e9eef3;
+      --danger: #7a2f2f;
+      --ok: #2a6a56;
+      --shadow: 0 18px 50px rgba(31, 42, 55, 0.08);
+      --radius-xl: 26px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 18px 14px 34px;
+    }
+
+    .app {
+      background: linear-gradient(180deg, rgba(255,255,255,0.82) 0%, rgba(248,246,240,0.96) 100%);
+      border: 1px solid rgba(216,210,202,0.95);
+      border-radius: 32px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px;
+      border-bottom: 1px solid rgba(216,210,202,0.8);
+      background: rgba(241,236,230,0.86);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .badge {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      flex: 0 0 auto;
+    }
+
+    .brand-copy h1 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.1;
+    }
+
+    .brand-copy p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .back-link {
+      text-decoration: none;
+      color: var(--accent);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 11px 14px;
+      font-size: 14px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    main { padding: 18px; }
+
+    .security-panel,
+    .filters,
+    .stats,
+    .list-card,
+    .detail-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .security-panel h2,
+    .detail-card h2 {
+      margin: 0 0 8px;
+      font-size: 20px;
+    }
+
+    .security-panel p,
+    .detail-card p,
+    .empty,
+    .microcopy {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .security-row,
+    .filter-row,
+    .edit-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    input,
+    select,
+    textarea,
+    button {
+      font: inherit;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 12px 12px;
+      background: #fff;
+      color: var(--text);
+    }
+
+    textarea {
+      min-height: 88px;
+      resize: vertical;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .btn {
+      border: 1px solid var(--accent);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+    }
+
+    .btn.secondary {
+      color: var(--accent);
+      background: transparent;
+      border-color: var(--line);
+    }
+
+    .btn.whatsapp {
+      background: var(--ok);
+      border-color: var(--ok);
+    }
+
+    .btn.danger {
+      background: transparent;
+      color: var(--danger);
+      border-color: rgba(122,47,47,0.35);
+    }
+
+    .btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .stats {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .stat {
+      background: #fff;
+      border: 1px solid rgba(216,210,202,0.7);
+      border-radius: var(--radius-lg);
+      padding: 12px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.25;
+    }
+
+    .workspace {
+      display: grid;
+      gap: 14px;
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .lead-item {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: var(--radius-lg);
+      padding: 13px;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .lead-item:hover,
+    .lead-item.is-active {
+      border-color: var(--accent);
+      box-shadow: 0 10px 24px rgba(31,42,55,0.08);
+    }
+
+    .lead-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .lead-title {
+      font-weight: 800;
+      font-size: 15px;
+      line-height: 1.25;
+    }
+
+    .lead-id {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+    .pill {
+      display: inline-flex;
+      border-radius: 999px;
+      padding: 6px 9px;
+      font-size: 12px;
+      font-weight: 800;
+      background: var(--accent-soft);
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .lead-meta {
+      display: grid;
+      gap: 5px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.32;
+    }
+
+    .detail-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .detail-head h2 {
+      margin-bottom: 4px;
+    }
+
+    .detail-grid {
+      display: grid;
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    .field {
+      background: #fff;
+      border: 1px solid rgba(216,210,202,0.7);
+      border-radius: var(--radius-lg);
+      padding: 12px;
+    }
+
+    .field strong {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 5px;
+    }
+
+    .field span {
+      display: block;
+      font-size: 14px;
+      line-height: 1.4;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .detail-actions {
+      display: grid;
+      gap: 10px;
+      margin: 12px 0 14px;
+    }
+
+    .status-line {
+      min-height: 20px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    @media (min-width: 760px) {
+      main { padding: 22px; }
+
+      .security-row {
+        grid-template-columns: 1fr auto;
+        align-items: end;
+      }
+
+      .filter-row {
+        grid-template-columns: 1fr 220px auto;
+        align-items: end;
+      }
+
+      .stats {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .workspace {
+        grid-template-columns: minmax(300px, 0.85fr) minmax(0, 1.4fr);
+        align-items: start;
+      }
+
+      .detail-grid,
+      .edit-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .field.full,
+      .edit-grid .full {
+        grid-column: 1 / -1;
+      }
+
+      .detail-actions {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 560px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .back-link { width: 100%; text-align: center; }
+      .detail-head { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <div class="badge" aria-hidden="true">IJ</div>
+          <div class="brand-copy">
+            <h1>Bandeja interna de consultas</h1>
+            <p>Consulta, respuesta y seguimiento comercial de IA punita.</p>
+          </div>
+        </div>
+        <a class="back-link" href="ia_punita.html">Volver a IA punita</a>
+      </header>
+
+      <main>
+        <section class="security-panel" aria-label="Acceso interno">
+          <h2>Acceso interno</h2>
+          <p>Ingrese la clave interna del backend para cargar consultas y actualizar estados. La clave se guarda solo en esta sesion del navegador.</p>
+          <div class="security-row">
+            <div>
+              <label for="adminKey">Clave interna</label>
+              <input id="adminKey" type="password" autocomplete="off" placeholder="ADMIN_API_KEY" />
+            </div>
+            <button class="btn" id="saveKeyBtn" type="button">Entrar</button>
+          </div>
+          <p class="status-line" id="keyStatus"></p>
+        </section>
+
+        <section class="filters" aria-label="Filtros de bandeja">
+          <div class="filter-row">
+            <div>
+              <label for="searchInput">Buscar</label>
+              <input id="searchInput" type="search" placeholder="Nombre, empresa, pais, telefono, ID..." />
+            </div>
+            <div>
+              <label for="statusFilter">Estado</label>
+              <select id="statusFilter">
+                <option value="Todas">Todas</option>
+                <option value="Nueva">Nueva</option>
+                <option value="Pendiente de respuesta">Pendiente de respuesta</option>
+                <option value="Respondida">Respondida</option>
+                <option value="Oportunidad real">Oportunidad real</option>
+                <option value="No calificada">No calificada</option>
+                <option value="Derivada">Derivada</option>
+                <option value="Cerrada">Cerrada</option>
+              </select>
+            </div>
+            <button class="btn secondary" id="refreshBtn" type="button">Actualizar</button>
+          </div>
+        </section>
+
+        <section class="stats" id="stats" aria-label="Resumen de estados"></section>
+
+        <section class="workspace">
+          <div class="list-card">
+            <h2 style="margin:0 0 10px; font-size:20px;">Consultas</h2>
+            <div class="list" id="leadList"></div>
+          </div>
+
+          <article class="detail-card" id="detailCard">
+            <h2>Seleccione una consulta</h2>
+            <p>Al abrir una ficha se puede responder por WhatsApp, marcar estado, registrar nota interna y conservar trazabilidad comercial.</p>
+          </article>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const ADMIN_API_BASE_URL = "https://api.interjama.com";
+    const STATUS_OPTIONS = [
+      "Nueva",
+      "Pendiente de respuesta",
+      "Respondida",
+      "Oportunidad real",
+      "No calificada",
+      "Derivada",
+      "Cerrada"
+    ];
+
+    const adminKeyInput = document.getElementById("adminKey");
+    const saveKeyBtn = document.getElementById("saveKeyBtn");
+    const keyStatus = document.getElementById("keyStatus");
+    const searchInput = document.getElementById("searchInput");
+    const statusFilter = document.getElementById("statusFilter");
+    const refreshBtn = document.getElementById("refreshBtn");
+    const stats = document.getElementById("stats");
+    const leadList = document.getElementById("leadList");
+    const detailCard = document.getElementById("detailCard");
+
+    let consultas = [];
+    let selectedId = "";
+
+    function getAdminKey() {
+      return sessionStorage.getItem("interjama_admin_key") || "";
+    }
+
+    function setAdminKey(value) {
+      sessionStorage.setItem("interjama_admin_key", value);
+    }
+
+    function formatDate(value) {
+      if (!value) return "Sin fecha";
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "Sin fecha";
+      return date.toLocaleString("es-AR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+    }
+
+    function text(value, fallback = "No indicado") {
+      return value ? String(value) : fallback;
+    }
+
+    function cleanPhoneForWa(value) {
+      return String(value || "").replace(/[^0-9]/g, "");
+    }
+
+    function buildWhatsappUrl(lead) {
+      const phone = cleanPhoneForWa(lead.client_phone);
+      const lines = [
+        "Hola " + (lead.full_name || ""),
+        "soy de Interjama. Recibimos tu consulta " + lead.consultation_id + " sobre " + (lead.service || "comercio exterior") + ".",
+        "Para orientarte mejor, te escribimos por este medio."
+      ];
+      return "https://api.whatsapp.com/send?phone=" + phone + "&text=" + encodeURIComponent(lines.join("\n")) + "&type=phone_number&app_absent=0";
+    }
+
+    function renderStats(counts) {
+      const map = new Map((counts || []).map((item) => [item.status, item.total]));
+      const main = ["Nueva", "Pendiente de respuesta", "Oportunidad real", "Respondida"];
+      stats.innerHTML = main.map((status) => `
+        <div class="stat">
+          <strong>${map.get(status) || 0}</strong>
+          <span>${status}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderList() {
+      if (!consultas.length) {
+        leadList.innerHTML = '<p class="empty">No hay consultas para este filtro.</p>';
+        return;
+      }
+
+      leadList.innerHTML = consultas.map((lead) => `
+        <button class="lead-item ${lead.consultation_id === selectedId ? "is-active" : ""}" type="button" data-id="${lead.consultation_id}">
+          <div class="lead-top">
+            <div>
+              <span class="lead-title">${text(lead.full_name)} ${lead.company ? "| " + lead.company : ""}</span>
+              <span class="lead-id">${lead.consultation_id} | ${formatDate(lead.created_at_server)}</span>
+            </div>
+            <span class="pill">${text(lead.status, "Nueva")}</span>
+          </div>
+          <div class="lead-meta">
+            <span>${text(lead.service)} | ${text(lead.client_type)}</span>
+            <span>${text(lead.city)} / ${text(lead.country)} | ${text(lead.client_phone)}</span>
+            <span>${text(lead.priority)}</span>
+          </div>
+        </button>
+      `).join("");
+
+      leadList.querySelectorAll(".lead-item").forEach((button) => {
+        button.addEventListener("click", () => {
+          selectedId = button.dataset.id;
+          const selected = consultas.find((item) => item.consultation_id === selectedId);
+          renderList();
+          renderDetail(selected);
+        });
+      });
+    }
+
+    function renderDetail(lead) {
+      if (!lead) return;
+      const phone = cleanPhoneForWa(lead.client_phone);
+      const whatsappUrl = buildWhatsappUrl(lead);
+
+      detailCard.innerHTML = `
+        <div class="detail-head">
+          <div>
+            <h2>${text(lead.full_name)}</h2>
+            <p>${lead.consultation_id} | ${formatDate(lead.created_at_server)}</p>
+          </div>
+          <span class="pill">${text(lead.status, "Nueva")}</span>
+        </div>
+
+        <div class="detail-actions">
+          <a class="btn whatsapp" href="${whatsappUrl}" target="_blank" rel="noopener" ${phone ? "" : "aria-disabled='true'"}>Responder por WhatsApp</a>
+          <button class="btn secondary" type="button" id="markPendingBtn">Marcar pendiente</button>
+          <button class="btn secondary" type="button" id="markOpportunityBtn">Oportunidad real</button>
+        </div>
+
+        <div class="detail-grid">
+          <div class="field"><strong>Empresa</strong><span>${text(lead.company)}</span></div>
+          <div class="field"><strong>Tipo de cliente</strong><span>${text(lead.client_type)}</span></div>
+          <div class="field"><strong>Telefono / WhatsApp</strong><span>${text(lead.client_phone)}</span></div>
+          <div class="field"><strong>Email</strong><span>${text(lead.email)}</span></div>
+          <div class="field"><strong>Ciudad / Pais</strong><span>${text(lead.city)} / ${text(lead.country)}</span></div>
+          <div class="field"><strong>Origen</strong><span>${text(lead.source)}</span></div>
+          <div class="field"><strong>Servicio</strong><span>${text(lead.service)}</span></div>
+          <div class="field"><strong>Prioridad</strong><span>${text(lead.priority)}</span></div>
+          <div class="field full"><strong>Detalle original</strong><span>${text(lead.details, "Sin detalle adicional")}</span></div>
+          <div class="field full"><strong>Accion sugerida</strong><span>${text(lead.suggested_action)}</span></div>
+        </div>
+
+        <div class="edit-grid">
+          <div>
+            <label for="editStatus">Estado</label>
+            <select id="editStatus">
+              ${STATUS_OPTIONS.map((status) => `<option value="${status}" ${status === lead.status ? "selected" : ""}>${status}</option>`).join("")}
+            </select>
+          </div>
+          <div>
+            <label for="assignedTo">Asignado a</label>
+            <input id="assignedTo" type="text" value="${lead.assigned_to || ""}" placeholder="Rafa / gestor" />
+          </div>
+          <div class="full">
+            <label for="lastAction">Ultima accion</label>
+            <input id="lastAction" type="text" value="${lead.last_action || ""}" placeholder="Ej.: se respondio por WhatsApp" />
+          </div>
+          <div class="full">
+            <label for="nextAction">Proxima accion</label>
+            <input id="nextAction" type="text" value="${lead.next_action || ""}" placeholder="Ej.: pedir documentacion" />
+          </div>
+          <div class="full">
+            <label for="internalNotes">Notas internas</label>
+            <textarea id="internalNotes" placeholder="Criterio comercial, contexto o seguimiento">${lead.internal_notes || ""}</textarea>
+          </div>
+        </div>
+
+        <div class="detail-actions">
+          <button class="btn" type="button" id="saveLeadBtn">Guardar cambios</button>
+          <button class="btn secondary" type="button" id="markAnsweredBtn">Marcar respondida</button>
+          <button class="btn danger" type="button" id="closeLeadBtn">Cerrar</button>
+        </div>
+        <p class="status-line" id="detailStatus"></p>
+      `;
+
+      document.getElementById("markPendingBtn").addEventListener("click", () => quickStatus("Pendiente de respuesta"));
+      document.getElementById("markOpportunityBtn").addEventListener("click", () => quickStatus("Oportunidad real"));
+      document.getElementById("markAnsweredBtn").addEventListener("click", () => quickStatus("Respondida"));
+      document.getElementById("closeLeadBtn").addEventListener("click", () => quickStatus("Cerrada"));
+      document.getElementById("saveLeadBtn").addEventListener("click", saveCurrentLead);
+    }
+
+    async function requestJson(path, options = {}) {
+      const key = getAdminKey();
+      if (!key) {
+        throw new Error("Falta ingresar la clave interna.");
+      }
+
+      const response = await fetch(ADMIN_API_BASE_URL + path, {
+        ...options,
+        headers: {
+          "Content-Type": "application/json",
+          "X-Admin-Key": key,
+          ...(options.headers || {})
+        }
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.error || "Error de API");
+      }
+      return data;
+    }
+
+    async function loadConsultas() {
+      keyStatus.textContent = "Cargando bandeja...";
+      const params = new URLSearchParams();
+      params.set("limit", "120");
+      if (statusFilter.value && statusFilter.value !== "Todas") params.set("status", statusFilter.value);
+      if (searchInput.value.trim()) params.set("q", searchInput.value.trim());
+
+      try {
+        const data = await requestJson("/api/consultas?" + params.toString());
+        consultas = data.consultas || [];
+        renderStats(data.counts || []);
+        renderList();
+        keyStatus.textContent = "Bandeja actualizada.";
+        if (selectedId) {
+          const selected = consultas.find((item) => item.consultation_id === selectedId);
+          if (selected) renderDetail(selected);
+        }
+      } catch (error) {
+        keyStatus.textContent = error.message;
+      }
+    }
+
+    async function saveLead(leadId, payload) {
+      const data = await requestJson("/api/consultas/" + encodeURIComponent(leadId), {
+        method: "PATCH",
+        body: JSON.stringify(payload)
+      });
+      return data.consulta;
+    }
+
+    async function saveCurrentLead() {
+      if (!selectedId) return;
+      const detailStatus = document.getElementById("detailStatus");
+      detailStatus.textContent = "Guardando...";
+
+      const payload = {
+        status: document.getElementById("editStatus").value,
+        assignedTo: document.getElementById("assignedTo").value,
+        internalNotes: document.getElementById("internalNotes").value,
+        lastAction: document.getElementById("lastAction").value,
+        nextAction: document.getElementById("nextAction").value
+      };
+
+      try {
+        await saveLead(selectedId, payload);
+        detailStatus.textContent = "Cambios guardados.";
+        await loadConsultas();
+      } catch (error) {
+        detailStatus.textContent = error.message;
+      }
+    }
+
+    async function quickStatus(status) {
+      const editStatus = document.getElementById("editStatus");
+      if (editStatus) editStatus.value = status;
+      await saveCurrentLead();
+    }
+
+    saveKeyBtn.addEventListener("click", () => {
+      const key = adminKeyInput.value.trim();
+      if (!key) {
+        keyStatus.textContent = "Ingrese la clave interna.";
+        return;
+      }
+      setAdminKey(key);
+      loadConsultas();
+    });
+
+    refreshBtn.addEventListener("click", loadConsultas);
+    statusFilter.addEventListener("change", loadConsultas);
+    searchInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") loadConsultas();
+    });
+
+    const savedKey = getAdminKey();
+    if (savedKey) {
+      adminKeyInput.value = savedKey;
+      loadConsultas();
+    }
+  </script>
+</body>
+</html>
